@@ -20,10 +20,6 @@ $app->get('/', function ($request, $response) {
     // return $response->write('Welcome to Slim!');
 });
 
-$app->post('/users', function ($request, $response) {
-    return $response->withStatus(302);
-});
-
 $app->get('/courses/{id}', function ($request, $response, array $args) {
     $id = $args['id'];
     return $response->write("Course id: {$id}");
@@ -45,11 +41,23 @@ $app->get('/companies/{id}', callable: function($request, $response, array $args
 
 });
 
+$users = ['mike', 'mishel', 'adel', 'kamila', 'karina', 'mickael','adelaida'];
+$app->get('/users', function ($request, $response) use ($users) {
+    $name = $request->getQueryParam('name');
+    $filtered_array = [];
+    foreach ($users as $user) {
+        if (str_contains($user, (string)$name)) {
+            $filtered_array[] = $user;
+        }
+    }
+    $params = ['name' => $name, 'filtered_array' => $filtered_array];
+    return $this->get('renderer')->render($response, "users/index.phtml", $params);
+});
+
 $app->get('/users/{id}', function ($request, $response, $args) {
     $params = [
         'id' => $args['id'],
-        'nickname' => 'user-' . $args['id'],
-        'message' => 'Здравствуй, любовь моя -'. $args['id'],
+        'nickname' => 'user-' . $args['id']
     ];
     // Указанный путь считается относительно базовой директории для шаблонов, заданной на этапе конфигурации
     // $this доступен внутри анонимной функции благодаря https://php.net/manual/ru/closure.bindto.php

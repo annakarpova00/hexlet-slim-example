@@ -1,0 +1,15 @@
+<form action="/users" method="get">
+    <input type="search" name="name" value="<?= isset($name) ? htmlspecialchars($name) : '' ?>" placeholder="введите имя" />
+    <input type="submit" value="Search!" />
+</form>
+
+<div>
+<ul>
+    <?php
+    if (isset($filtered_array)){//этот массив существует только после отправки формы -?
+        foreach ($filtered_array as $filtered_user):?>
+            <li><?=$filtered_user?></li>
+        <?php endforeach?>
+    <?php } ?>
+</ul>
+</div>
