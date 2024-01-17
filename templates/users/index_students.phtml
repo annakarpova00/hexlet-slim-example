@@ -1,0 +1,14 @@
+
+<table>
+    <?php foreach ($students as $student):?>
+    <tr>
+        <td>
+            <?=$student['id']?>
+        </td>
+
+        <td>
+            <a href="/students/<?=$student['id']?>"><?=$student['name']?></a>
+        </td>
+    </tr>
+    <?php endforeach?>
+</table>
